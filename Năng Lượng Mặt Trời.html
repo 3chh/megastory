@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nóng lên toàn cầu và thách thức an ninh năng lượng mặt trời</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       MEGA STORY — Năng lượng mặt trời
+       ============================================================ */
+    :root {
+      --green:      #5e8c2b;
+      --green-dk:   #4a7021;
+      --green-lt:   #e8f3d9;
+      --orange:     #f47b20;
+      --orange-dk:  #e06811;
+      --orange-lt:  #fef3ea;
+      --yellow:     #f5bd16;
+      --ink:        #15171a;
+      --text:       #23282e;
+      --muted:      #5c6671;
+      --line:       #e4e8eb;
+      --bg:         #ffffff;
+      --band:       #f3f5f6;
+      --col:        700px;
+      --wide:       1040px;
+      --font:       "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    body {
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.75;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── PROGRESS ── */
+    #progress {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0;
+      background: linear-gradient(90deg, var(--green), var(--yellow), var(--orange));
+      z-index: 100; transition: width .08s linear;
+    }
+
+    /* ── HEADER removed ── */
+
+    /* ── LAYOUT CONTAINERS ── */
+    .col  { max-width: var(--col);  margin: 0 auto; padding: 0 28px; }
+    .wide { max-width: var(--wide); margin: 0 auto; padding: 0 28px; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 86svh;
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      padding-bottom: 92px; padding-top: 112px;
+      background: #0f2934;
+    }
+    .hero-bg {
+      position: absolute;
+      top: 0; bottom: 0; left: 50%;
+      width: 100vw; min-width: 100%;
+      transform: translateX(-50%);
+      background: url("assets/img/solar-sunset.jpg") center center / cover no-repeat;
+      opacity: .9;
+    }
+    .hero-bg::after {
+      content: ""; position: absolute; inset: 0;
+      background:
+        radial-gradient(780px 520px at 72% 36%, rgba(255,255,255,.08), rgba(255,255,255,0) 64%),
+        linear-gradient(90deg, rgba(5,20,27,.92) 0%, rgba(8,27,35,.76) 48%, rgba(8,27,35,.5) 100%),
+        linear-gradient(180deg, rgba(15,46,58,.18) 0%, rgba(3,13,18,.84) 100%);
+    }
+    .hero-inner {
+      position: relative; z-index: 2;
+      width: min(1500px, 100%);
+      margin: 0 auto;
+      padding: 0 clamp(32px, 6vw, 86px);
+      display: grid;
+      grid-template-columns: minmax(0, 780px) minmax(250px, 320px);
+      gap: clamp(82px, 7vw, 128px);
+      align-items: center;
+    }
+    .hero-copy {
+      width: min(100%, 780px);
+      max-width: none;
+    }
+    .kicker-tag {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-size: .72rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--yellow); margin-bottom: 28px;
+    }
+    .kicker-tag::before { content: ""; width: 24px; height: 2px; background: var(--yellow); }
+    .hero h1 {
+      font-size: clamp(2.1rem, 3.85vw, 4.15rem);
+      font-weight: 900; line-height: .92;
+      letter-spacing: -.032em; text-transform: uppercase;
+      color: #fff; margin-bottom: 36px;
+      max-width: 780px;
+    }
+    .hero h1 .line {
+      display: block;
+      white-space: nowrap;
+    }
+    .hero h1 .line + .line { margin-top: .34em; }
+    .hero h1 .line-mid {
+      font-size: .7em;
+      letter-spacing: -.018em;
+    }
+    .hero h1 .line > .eo {
+      display: inline-block;
+      margin-left: .12em;
+    }
+    .hero h1 .eg { color: var(--green); }
+    .hero h1 .eo { color: var(--orange); }
+    .hero-deck {
+      font-size: clamp(1rem, 1.4vw, 1.2rem); line-height: 1.72;
+      color: rgba(255,255,255,.92); max-width: 600px; margin-bottom: 0;
+      font-weight: 500;
+    }
+    .hero-side {
+      margin: 0;
+      justify-self: end;
+      align-self: center;
+      width: min(100%, 320px);
+    }
+    .hero-side img {
+      width: 100%;
+      aspect-ratio: 4 / 5.35;
+      object-fit: cover;
+      border-radius: 18px;
+      box-shadow: 0 34px 90px rgba(0,0,0,.36);
+    }
+
+    /* ── TOC ── */
+    .toc-band {
+      background: var(--band);
+      border-top: 3px solid var(--green);
+      padding: 44px 0;
+    }
+    .toc-eyebrow {
+      font-size: .7rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 22px;
+    }
+    .toc-list { list-style: none; }
+    .toc-list li {
+      display: flex; align-items: baseline; gap: 14px;
+      padding: 11px 0; border-bottom: 1px solid var(--line);
+    }
+    .toc-list li:last-child { border-bottom: none; }
+    .toc-n { font-size: .68rem; font-weight: 800; color: var(--muted); min-width: 20px; }
+    .toc-list a { font-size: .96rem; font-weight: 500; color: var(--ink); }
+    .toc-list a:hover { color: var(--green); }
+
+    /* ── CHAPTER HEADER ── */
+    .ch-head {
+      position: relative; overflow: hidden;
+      padding: 80px 0 64px;
+    }
+    .ch-head.dark   { background: var(--ink); }
+    .ch-head.forest { background: linear-gradient(135deg,#1c3408 0%,#2e5012 55%,#3d6318 100%); }
+    .ch-head.ember  { background: linear-gradient(135deg,#6b2708 0%,#b04010 55%,var(--orange-dk) 100%); }
+    .ch-head.deep   { background: linear-gradient(135deg,#0a1d06 0%,#1a3612 55%,#2a4f1c 100%); }
+    .ch-ghost {
+      position: absolute; right: -20px; top: -24px;
+      font-size: clamp(10rem,22vw,18rem); font-weight: 900;
+      line-height: 1; letter-spacing: -.05em;
+      color: rgba(255,255,255,.045);
+      pointer-events: none; user-select: none;
+    }
+    .ch-inner { position: relative; z-index: 1; }
+    .ch-eyebrow {
+      font-size: .7rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; margin-bottom: 18px;
+    }
+    .ch-head.dark   .ch-eyebrow { color: var(--yellow); }
+    .ch-head.forest .ch-eyebrow { color: rgba(255,255,255,.6); }
+    .ch-head.ember  .ch-eyebrow { color: rgba(255,255,255,.6); }
+    .ch-head.deep   .ch-eyebrow { color: var(--yellow); }
+    .ch-title {
+      font-size: clamp(1.9rem,4.8vw,3.4rem);
+      font-weight: 900; line-height: 1.07;
+      letter-spacing: -.018em; color: #fff; max-width: 680px;
+    }
+    .ch-sub {
+      font-size: 1.04rem; line-height: 1.62; max-width: 600px;
+      margin-top: 18px; color: rgba(255,255,255,.68);
+    }
+
+    /* ── PROSE ── */
+    .section      { padding: 72px 0; }
+    .section-sm   { padding: 48px 0; }
+    .prose        { font-size: 1.08rem; line-height: 1.85; color: var(--text); }
+    .prose p      { margin-bottom: 1.45em; }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose strong { font-weight: 700; color: var(--ink); }
+
+    /* Drop cap */
+    .prose .drop::first-letter {
+      float: left; font-size: 4.4em; line-height: .8;
+      font-weight: 900; color: var(--green);
+      margin: .05em .12em 0 0;
+    }
+
+    /* ── PULL QUOTE ── */
+    .pq {
+      max-width: 820px; margin: 64px auto;
+      padding: 0 40px; border-left: 4px solid var(--green);
+    }
+    .pq p {
+      font-size: clamp(1.28rem,2.8vw,1.82rem);
+      font-weight: 700; line-height: 1.38;
+      color: var(--ink); font-style: italic; margin: 0;
+    }
+    .pq.amber  { border-color: var(--orange); }
+    .pq.amber p { color: var(--orange-dk); }
+
+    /* ── STAT ROW ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      border: 1px solid var(--line);
+      border-radius: 14px; overflow: hidden;
+      margin: 52px 0;
+    }
+    .stat {
+      padding: 30px 24px; text-align: center;
+      border-right: 1px solid var(--line);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-size: clamp(2rem,5vw,3rem);
+      font-weight: 900; line-height: 1; color: var(--green);
+    }
+    .stat-num.o { color: var(--orange); }
+    .stat-lbl {
+      font-size: .74rem; font-weight: 700; letter-spacing: .05em;
+      text-transform: uppercase; color: var(--muted); margin-top: 8px;
+    }
+
+    /* ── CALLOUT ── */
+    .callout {
+      background: var(--green-lt); border-left: 4px solid var(--green);
+      border-radius: 0 12px 12px 0; padding: 26px 30px; margin: 52px 0;
+    }
+    .callout.amber { background: var(--orange-lt); border-color: var(--orange); }
+    .callout-lbl {
+      font-size: .68rem; font-weight: 700; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 10px;
+    }
+    .callout.amber .callout-lbl { color: var(--orange); }
+    .callout p { font-size: .99rem; line-height: 1.72; color: var(--ink); margin: 0; }
+
+    /* ── FIGURES ── */
+    .fig { margin: 52px 0; }
+    .fig img {
+      width: 100%; aspect-ratio: 16 / 9; object-fit: cover;
+      border-radius: 10px;
+    }
+    .fig figcaption {
+      font-size: .77rem; color: var(--muted); margin-top: 10px;
+      line-height: 1.5; font-style: italic;
+    }
+
+    .fig-bleed {
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1500px);
+      max-width: calc(100vw - 24px);
+      margin-top: 52px; margin-bottom: 52px;
+    }
+    .fig-bleed img {
+      width: 100%; max-height: 68vh; object-fit: cover;
+      border-radius: 0;
+    }
+    .fig-bleed figcaption {
+      max-width: var(--col); margin: 10px auto 0; padding: 0 28px;
+      font-style: italic;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin: 52px 0; }
+    .grid-2 figure { margin: 0; }
+    .grid-2 figure img {
+      width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+      border-radius: 10px;
+    }
+    .grid-2 figure figcaption {
+      font-size: .77rem; color: var(--muted); margin-top: 8px;
+      line-height: 1.5; font-style: italic;
+    }
+
+    .media-band {
+      max-width: var(--wide);
+      margin: 60px auto;
+      padding: 0 28px;
+    }
+    .media-band .fig,
+    .media-band .grid-2 { margin: 0; }
+    .media-band + .section-sm,
+    .media-band + .section { padding-top: 8px; }
+    .visual-note {
+      display: grid; grid-template-columns: minmax(0,1.1fr) minmax(220px,.9fr);
+      gap: 28px; align-items: end; margin: 56px 0;
+      border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+      padding: 26px 0;
+    }
+    .visual-note p {
+      font-size: .95rem; line-height: 1.7; color: var(--muted);
+      margin: 0;
+    }
+    .visual-note img {
+      width: 100%; aspect-ratio: 16 / 10; object-fit: cover;
+      border-radius: 10px;
+    }
+
+    /* ── KICKER ── */
+    .kicker {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .7rem; font-weight: 700; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 12px;
+    }
+    .kicker::before { content: ""; width: 20px; height: 2px; background: var(--green); }
+
+    /* ── DIVIDER ── */
+    .hr { border: none; height: 1px; background: var(--line); margin: 52px 0; }
+
+    /* ── CLOSING ── */
+    .closing {
+      background: var(--ink); padding: 88px 0; text-align: center;
+    }
+    .closing .kicker { justify-content: center; color: var(--yellow); margin-bottom: 20px; }
+    .closing .kicker::before { background: var(--yellow); }
+    .closing h2 {
+      font-size: clamp(1.5rem,3.6vw,2.5rem); font-weight: 800;
+      line-height: 1.28; color: #fff; max-width: 660px; margin: 0 auto 20px;
+    }
+    .closing h2 em { color: var(--yellow); font-style: normal; }
+    .closing p { font-size: 1rem; color: rgba(255,255,255,.55); max-width: 500px; margin: 0 auto; }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: #0d0f11;
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding: 44px 0;
+    }
+    .foot-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; flex-wrap: wrap;
+    }
+    .foot-brand {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 800; font-size: .88rem; color: #fff;
+    }
+    .foot-brand b { color: var(--green); }
+    .foot-brand i { color: var(--orange); font-style: normal; }
+    .foot-sources { font-size: .74rem; color: rgba(255,255,255,.3); max-width: 580px; line-height: 1.6; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+      .hero-side {
+        width: min(58vw, 300px);
+        justify-self: start;
+      }
+    }
+    @media (max-width: 760px) {
+      .hero-inner { padding: 0 20px; }
+      .col, .wide { padding: 0 20px; }
+      .pq { padding: 0 20px; margin: 44px 0; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .visual-note { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--line); }
+      .stat:last-child { border-bottom: none; }
+      .fig-bleed { margin: 32px 0; width: 100%; }
+      .fig-bleed img { border-radius: 10px; }
+      .fig-bleed figcaption { padding: 0 20px; }
+    }
+    @media (max-width: 480px) {
+      .site-header { padding: 12px 16px; }
+      .hero h1 { font-size: clamp(1.35rem, 7.4vw, 2.15rem); }
+      .hero-side { width: min(74vw, 260px); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress"></div>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="kicker-tag">Vấn đề toàn cầu</div>
+      <h1>
+        <span class="line eg">Nóng lên toàn cầu</span>
+        <span class="line line-mid">và thách thức <span class="eo">an ninh</span></span>
+        <span class="line eo">năng lượng mặt trời</span>
+      </h1>
+      <p class="hero-deck">Khi những đợt nắng nóng cực đoan kéo dài, nguồn năng lượng được kỳ vọng là trụ cột của tương lai xanh lại đối mặt với chính thách thức từ khí hậu.</p>
+    </div>
+    <figure class="hero-side">
+      <img src="assets/img/hero-bulb.jpg" alt="Bóng đèn với hình ảnh tấm pin mặt trời và cây xanh bên trong">
+    </figure>
+  </div>
+</section>
+
+<!-- ═══════════════════ MỤC LỤC ═══════════════════ -->
+<div class="toc-band" id="muc-luc">
+  <div class="col">
+    <p class="toc-eyebrow">Trong bài viết này</p>
+    <ul class="toc-list">
+      <li><span class="toc-n">01</span><a href="#s01">Thích ứng với cái nóng trở thành nhu cầu thường trực</a></li>
+      <li><span class="toc-n">02</span><a href="#s02">Thế giới "đặt cược" vào năng lượng mặt trời</a></li>
+      <li><span class="toc-n">03</span><a href="#s03">Khi nắng nóng trở thành thách thức của điện mặt trời</a></li>
+      <li><span class="toc-n">04</span><a href="#s04">Cơ hội mới cho điện năng lượng tái tạo tại Việt Nam</a></li>
+      <li><span class="toc-n">05</span><a href="#s05">Xây dựng hệ thống điện mặt trời có khả năng chống chịu khí hậu</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════ CHƯƠNG 01 ═══════════════════ -->
+<section id="s01" data-ch="Thích ứng">
+  <div class="ch-head dark">
+    <div class="ch-ghost">01</div>
+    <div class="wide ch-inner">
+      <p class="ch-eyebrow">Chương 01 &nbsp;—&nbsp; Thích ứng</p>
+      <h2 class="ch-title">Thích ứng với cái nóng trở thành nhu cầu thường trực</h2>
+      <p class="ch-sub">Nếu trước đây các đợt nắng nóng cực đoan thường được xem là hiện tượng thời tiết bất thường thì nay chúng đang dần định hình lại cách con người sinh sống, làm việc và tiêu thụ năng lượng.</p>
+    </div>
+  </div>
+
+  <div class="section col">
+    <div class="prose">
+      <p class="drop">Nhiệt độ tại nhiều quốc gia liên tục vượt ngưỡng 45°C. Những đợt nắng nóng cực đoan xuất hiện sớm hơn, kéo dài hơn và dữ dội hơn bất kỳ thời điểm nào trong lịch sử quan trắc hiện đại. Nhu cầu điện toàn cầu cũng liên tục lập nhiều kỷ lục mới để thích ứng với khí hậu ngày càng khắc nghiệt.</p>
+      <p>Tại nhiều quốc gia, việc vận hành hệ thống làm mát trong nhà ở, bệnh viện, trường học hay các cơ sở sản xuất không còn là nhu cầu theo mùa mà đã trở thành yêu cầu thiết yếu quanh năm. Cùng với quá trình đô thị hóa và sự gia tăng của các thiết bị điện, nhu cầu tiêu thụ điện năng trên toàn cầu ngày càng leo thang.</p>
+    </div>
+  </div>
+
+  <figure class="fig-bleed">
+    <img src="assets/img/sprinkler-solar.jpg" alt="Hệ thống tưới tiêu bên cạnh cánh đồng pin mặt trời">
+    <figcaption>Mô hình agrivoltaic — kết hợp nông nghiệp và điện mặt trời — đang phát triển như một giải pháp thích ứng khí hậu.</figcaption>
+  </figure>
+
+  <div class="section-sm col">
+    <div class="grid-2">
+      <figure>
+        <img src="assets/img/night-farm.jpg" alt="Người dân làm việc ngoài đồng vào ban đêm">
+        <figcaption>Lao động chuyển sang làm việc ban đêm để tránh nắng nóng ban ngày.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/img/temp-map.jpg" alt="Bản đồ dị thường nhiệt độ bề mặt toàn cầu">
+        <figcaption>Bản đồ dị thường nhiệt độ 2m toàn cầu — Nguồn: WeatherBELL Analytics.</figcaption>
+      </figure>
+    </div>
+
+    <div class="prose">
+      <p>Theo Cơ quan Năng lượng Quốc tế (IEA), nhu cầu điện thế giới đang tăng với tốc độ nhanh nhất trong nhiều năm trở lại đây, trong đó các đợt nắng nóng kéo dài là một trong những nguyên nhân quan trọng thúc đẩy mức tiêu thụ điện cho làm mát. Tại nhiều quốc gia, hệ thống điện liên tiếp ghi nhận các mức phụ tải kỷ lục trong mùa hè để đáp ứng nhu cầu sử dụng điều hòa và các thiết bị chống nóng.</p>
+      <p>Áp lực bảo đảm nguồn cung điện trong bối cảnh khí hậu ngày càng khắc nghiệt đang khiến các quốc gia đẩy nhanh quá trình chuyển đổi năng lượng. Trong số các nguồn năng lượng tái tạo, điện mặt trời nổi lên như một lựa chọn quan trọng nhờ khả năng triển khai nhanh, chi phí ngày càng giảm và tiềm năng phát triển ở quy mô lớn.</p>
+    </div>
+
+    <div class="pq">
+      <p>"Liệu chính hiện tượng nóng lên toàn cầu có đang làm suy giảm hiệu quả và tính ổn định của nguồn năng lượng được xem là trụ cột của tương lai xanh?"</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CHƯƠNG 02 ═══════════════════ -->
+<section id="s02" data-ch="Chuyển dịch">
+  <div class="ch-head forest">
+    <div class="ch-ghost">02</div>
+    <div class="wide ch-inner">
+      <p class="ch-eyebrow">Chương 02 &nbsp;—&nbsp; Chuyển dịch</p>
+      <h2 class="ch-title">Thế giới "đặt cược" vào năng lượng mặt trời</h2>
+      <p class="ch-sub">Trước áp lực cắt giảm phát thải khí nhà kính và bảo đảm an ninh năng lượng, nhiều quốc gia đã đặt cược vào năng lượng tái tạo, trong đó năng lượng mặt trời nổi lên như công nghệ phát triển nhanh nhất.</p>
+    </div>
+  </div>
+
+  <div class="section col">
+    <div class="prose">
+      <p class="drop">Theo Tổ chức Khí tượng Thế giới (WMO), năm 2024 là năm nóng nhất từng được ghi nhận từ khi có số liệu quan trắc hiện đại, với nhiệt độ trung bình toàn cầu cao hơn khoảng 1,55°C so với thời kỳ tiền công nghiệp. Đến năm 2025, nhiệt độ toàn cầu tiếp tục nằm trong nhóm ba năm nóng nhất lịch sử, đánh dấu 11 năm liên tiếp nóng kỷ lục trên phạm vi toàn thế giới.</p>
+      <p>Nếu cách đây một thập niên điện mặt trời vẫn được xem là nguồn điện bổ trợ thì nay nó đã trở thành trụ cột trong chiến lược chuyển đổi năng lượng của hàng loạt nền kinh tế lớn. Từ các trang trại điện mặt trời trải dài trên sa mạc Trung Đông, Bắc Phi đến những mái nhà dân cư ở châu Âu, Mỹ hay châu Á, các tấm pin quang điện đang phủ kín những không gian từng phụ thuộc vào nhiên liệu hóa thạch.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">&gt;11 năm</div>
+        <div class="stat-lbl">Nóng kỷ lục liên tiếp</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2.800 GW+</div>
+        <div class="stat-lbl">Công suất lắp đặt 2025</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num o">80%</div>
+        <div class="stat-lbl">Mức tăng trưởng 2025–2030</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>Riêng năm 2025, thế giới đã bổ sung hơn 600 GW công suất điện mặt trời mới, nâng tổng công suất lắp đặt toàn cầu lên khoảng 2.800 GW. Điện mặt trời chiếm hơn ba phần tư tổng công suất năng lượng tái tạo mới và được dự báo sẽ chiếm gần 80% mức tăng trưởng giai đoạn 2025–2030, trở thành lựa chọn ưu tiên trong cuộc đua hướng tới mục tiêu Net Zero.</p>
+    </div>
+  </div>
+
+  <figure class="fig-bleed">
+    <img src="assets/img/workers-flag.jpg" alt="Công nhân điện lực treo cờ trên cột truyền tải">
+    <figcaption>Công nhân điện lực trên hệ thống truyền tải, biểu tượng cho giai đoạn mở rộng hạ tầng năng lượng quy mô lớn.</figcaption>
+  </figure>
+
+  <div class="section-sm col">
+    <div class="prose">
+      <p>Những hàng dài mô-đun quang điện trải dài hàng km khắp sa mạc phía nam Abu Dhabi là hình ảnh tiêu biểu cho kỷ nguyên mới. Nhà máy điện Al Dhafra với công suất khoảng 2 gigawatt chứng minh rằng điện mặt trời quy mô lớn đang trở thành một trong những công cụ hiệu quả nhất để đa dạng hóa nguồn năng lượng của các nền kinh tế dựa vào dầu mỏ.</p>
+      <p>Tuy nhiên, đằng sau tốc độ phát triển ấn tượng của năng lượng mặt trời là những rủi ro ngày càng hiện hữu từ chính các tác động của biến đổi khí hậu. Khi nhiệt độ toàn cầu liên tục lập kỷ lục mới và các hiện tượng thời tiết cực đoan xuất hiện với tần suất dày đặc hơn, cơ sở hạ tầng năng lượng tái tạo cũng trở nên dễ bị tổn thương hơn trước các điều kiện môi trường khắc nghiệt. Quy mô càng lớn thì những rủi ro đối với hệ thống cũng càng trở nên đáng chú ý.</p>
+    </div>
+
+    <div class="visual-note">
+      <p>Ở cấp độ hạ tầng, điện mặt trời không còn là các cụm lắp đặt rời rạc. Những trang trại quy mô gigawatt đòi hỏi quy hoạch lưới điện, bảo trì bề mặt pin, quản lý bụi và điều độ công suất ở mức chính xác hơn.</p>
+      <img src="assets/img/desert-solar.jpg" alt="Trang trại điện mặt trời quy mô lớn giữa sa mạc">
+    </div>
+
+    <figure class="fig">
+      <img src="assets/img/iea-infographic.jpg" alt="Đồ họa 10 quốc gia tiêu thụ điện nhiều nhất thế giới">
+      <figcaption>10 quốc gia tiêu thụ điện nhiều nhất thế giới — Nguồn: Ember / Visual Capitalist, cập nhật 4/2026.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ═══════════════════ CHƯƠNG 03 ═══════════════════ -->
+<section id="s03" data-ch="Nghịch lý">
+  <div class="ch-head ember">
+    <div class="ch-ghost">03</div>
+    <div class="wide ch-inner">
+      <p class="ch-eyebrow">Chương 03 &nbsp;—&nbsp; Nghịch lý</p>
+      <h2 class="ch-title">Khi nắng nóng trở thành thách thức của điện mặt trời</h2>
+      <p class="ch-sub">Nghịch lý đáng lo ngại: chính điều kiện khí hậu thúc đẩy nhu cầu năng lượng tái tạo lại đang gây ra những rủi ro mới cho hệ thống điện mặt trời.</p>
+    </div>
+  </div>
+
+  <div class="section col">
+    <div class="prose">
+      <p class="drop">Thông thường, nhiều người cho rằng càng nắng nóng thì điện mặt trời càng tạo ra nhiều điện năng. Tuy nhiên, các tấm pin quang điện hoạt động dựa trên bức xạ ánh sáng mặt trời chứ không phụ thuộc trực tiếp vào nhiệt độ môi trường. Và đây chính là điểm mấu chốt của nghịch lý này.</p>
+      <p>Trên thực tế, nhiệt độ quá cao lại là một trong những yếu tố làm suy giảm hiệu suất của hệ thống điện mặt trời. Theo các nghiên cứu kỹ thuật, phần lớn tấm pin silicon hiện nay được đánh giá hiệu suất ở điều kiện tiêu chuẩn 25°C. Khi nhiệt độ vượt ngưỡng này, điện áp đầu ra của mô-đun quang điện bắt đầu giảm — trung bình, công suất phát điện có thể suy giảm khoảng 0,3–0,5% cho mỗi 1°C nhiệt độ tăng thêm.</p>
+      <p>Điều đó đồng nghĩa với việc trong các đợt nắng nóng cực đoan, khi nhiệt độ bề mặt tấm pin có thể vượt 60°C, lượng điện tạo ra sẽ thấp hơn đáng kể so với điều kiện vận hành lý tưởng. Nhiều nghiên cứu thực địa tại Trung Đông, Ấn Độ và khu vực Đông Nam Á đã ghi nhận hiện tượng suy giảm sản lượng điện mặt trời trong những giai đoạn nhiệt độ duy trì ở mức cao trong thời gian dài.</p>
+    </div>
+
+    <div class="pq amber">
+      <p>"Ánh nắng là điều kiện để tạo ra điện mặt trời, nhưng nắng nóng cực đoan và thời tiết khắc nghiệt lại đang trở thành thách thức đối với chính nguồn năng lượng này."</p>
+    </div>
+
+    <div class="prose">
+      <p>Không chỉ nhiệt độ, quá trình nóng lên toàn cầu còn kéo theo hàng loạt yếu tố bất lợi khác đối với hệ thống điện mặt trời. Cháy rừng ngày càng nghiêm trọng tại Canada, Australia hay miền Tây Hoa Kỳ tạo ra lượng lớn bụi và khói trong khí quyển, làm giảm lượng bức xạ mặt trời tới bề mặt pin. Tại nhiều khu vực khô hạn, tình trạng sa mạc hóa và bão bụi khiến các tấm pin nhanh bám bẩn hơn, làm tăng chi phí bảo trì và vệ sinh hệ thống.</p>
+      <p>Trong khi đó, tại các khu vực ven biển nhiệt đới, độ ẩm cao và hơi muối trong không khí có thể đẩy nhanh quá trình ăn mòn vật liệu, ảnh hưởng đến tuổi thọ thiết bị. Các hiện tượng thời tiết cực đoan như mưa đá, giông lốc hay bão mạnh cũng làm gia tăng nguy cơ hư hỏng hạ tầng điện mặt trời, từ tấm pin, giá đỡ cho đến hệ thống truyền tải điện.</p>
+    </div>
+
+    <div class="grid-2">
+      <figure>
+        <img src="assets/img/rooftop-solar.jpg" alt="Tấm pin mặt trời lắp trên mái nhà dân cư">
+        <figcaption>Điện mặt trời mái nhà ngày càng phổ biến tại khu dân cư.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/img/panel-closeup.jpg" alt="Cận cảnh bề mặt tấm pin mặt trời bám bụi">
+        <figcaption>Bụi bám trên bề mặt làm giảm hiệu suất và tăng chi phí vệ sinh.</figcaption>
+      </figure>
+    </div>
+
+    <div class="callout amber">
+      <p class="callout-lbl">Báo cáo kWh Analytics 2026</p>
+      <p>Báo cáo Đánh giá Rủi ro Điện mặt trời 2026 của kWh Analytics, tổng hợp 19 nghiên cứu từ các tổ chức và doanh nghiệp trong ngành năng lượng toàn cầu, cho thấy thời tiết cực đoan vẫn là nguyên nhân gây thiệt hại tài chính lớn nhất đối với các dự án điện mặt trời. Nắng nóng kéo dài, bão, mưa đá, cháy rừng không chỉ làm gia tăng chi phí vận hành và bảo trì mà còn ảnh hưởng trực tiếp đến hiệu suất phát điện và tuổi thọ của hệ thống.</p>
+    </div>
+
+    <div class="prose">
+      <p>Nhận định về xu hướng này, ông Jason Kaminsky, Giám đốc điều hành kWh Analytics, cho rằng thời tiết cực đoan vẫn là một trong những nguyên nhân quan trọng gây tổn thất cho các dự án điện mặt trời quy mô lớn và ngành năng lượng đang phải đẩy nhanh các giải pháp quản trị rủi ro để thích ứng với thực tế mới. Theo ông, những hệ thống điện mặt trời được xây dựng hôm nay sẽ phải vận hành ổn định trong hơn 30 năm tới — trong khi khí hậu đang trở nên ngày càng khó dự đoán hơn.</p>
+      <p>Điều này cho thấy thách thức đối với năng lượng mặt trời không còn dừng lại ở bài toán công nghệ hay chi phí đầu tư. Trong bối cảnh khí hậu toàn cầu tiếp tục biến đổi theo chiều hướng cực đoan hơn, khả năng chống chịu và thích ứng của các hệ thống điện mặt trời đang trở thành một yếu tố quan trọng của an ninh năng lượng.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CHƯƠNG 04 ═══════════════════ -->
+<section id="s04" data-ch="Việt Nam">
+  <div class="ch-head deep">
+    <div class="ch-ghost">04</div>
+    <div class="wide ch-inner">
+      <p class="ch-eyebrow">Chương 04 &nbsp;—&nbsp; Việt Nam</p>
+      <h2 class="ch-title">Cơ hội mới cho điện năng lượng tái tạo tại Việt Nam</h2>
+      <p class="ch-sub">Những thách thức của ngành điện mặt trời toàn cầu ngày càng trở nên đáng lưu tâm tại Việt Nam — một trong những quốc gia chịu tác động mạnh nhất của biến đổi khí hậu.</p>
+    </div>
+  </div>
+
+  <div class="section col">
+    <div class="prose">
+      <p class="drop">Trong bối cảnh Việt Nam đang đẩy mạnh chuyển đổi năng lượng để thực hiện cam kết Net Zero vào năm 2050, việc Chính phủ ban hành Nghị định 58/2025/NĐ-CP đã cho thấy điện mặt trời không còn chỉ là một xu hướng công nghệ mà đã trở thành một bộ phận quan trọng trong chiến lược an ninh năng lượng quốc gia.</p>
+      <p>Nghị định 58/2025/NĐ-CP đánh dấu bước chuyển rõ rệt trong tư duy quản lý điện mặt trời của Việt Nam — từ giai đoạn phát triển nhanh dựa trên cơ chế giá FIT sang mô hình phát triển có kiểm soát, ưu tiên tính ổn định và bền vững của hệ thống điện. Nhà nước khuyến khích hộ gia đình và tổ chức phát triển điện mặt trời mái nhà theo hình thức "tự sản xuất, tự tiêu thụ", đồng thời thiết lập các yêu cầu chặt chẽ về xây dựng, phòng cháy chữa cháy, đấu nối kỹ thuật và quản lý công suất.</p>
+    </div>
+
+    <div class="callout">
+      <p class="callout-lbl">Nghị định 58/2025/NĐ-CP</p>
+      <p>Bước chuyển từ cơ chế FIT sang mô hình "tự sản xuất, tự tiêu thụ" phản ánh xu hướng toàn cầu: phát triển điện mặt trời không chỉ để mở rộng công suất, mà còn phải đảm bảo hệ thống vận hành ổn định và an toàn trước biến đổi khí hậu. Việc thu hồi Giấy chứng nhận đăng ký phát triển nếu sau 60 ngày không triển khai lắp đặt cho thấy Nhà nước hướng tới tính thực chất, tránh đầu cơ chính sách hoặc phát triển thiếu kiểm soát.</p>
+    </div>
+
+    <div class="grid-2">
+      <figure>
+        <img src="assets/img/rooftop-solar.jpg" alt="Tấm pin mặt trời lắp trên mái nhà dân cư">
+        <figcaption>Điện mặt trời mái nhà là hướng triển khai gần với hộ dân, cơ quan và doanh nghiệp, nhưng cũng chịu tác động trực tiếp từ nhiệt độ mái và tiêu chuẩn an toàn kỹ thuật.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/img/solar-sunset.jpg" alt="Cánh đồng điện mặt trời lúc hoàng hôn">
+        <figcaption>Các cụm điện mặt trời mặt đất cần được quy hoạch cùng hạ tầng truyền tải, lưu trữ và phương án bảo trì trong điều kiện nắng nóng kéo dài.</figcaption>
+      </figure>
+    </div>
+
+    <div class="prose">
+      <p>Những năm gần đây, các đợt nắng nóng diện rộng liên tục xuất hiện tại nhiều địa phương, đặc biệt ở khu vực Bắc Bộ và miền Trung. Nhiệt độ ngoài trời nhiều thời điểm vượt ngưỡng 40°C, trong khi nhiệt độ trên mái nhà hoặc bề mặt công trình có thể cao hơn đáng kể. Điều này đặt ra những yêu cầu mới đối với các hệ thống điện mặt trời mái nhà vốn đang được khuyến khích phát triển mạnh trong thời gian tới.</p>
+    </div>
+
+    <div class="pq">
+      <p>"Liệu hệ thống điện mặt trời của Việt Nam có đủ khả năng thích ứng trước tác động ngày càng nghiêm trọng của nóng lên toàn cầu hay không?"</p>
+    </div>
+
+    <div class="prose">
+      <p>Khi nhiệt độ cực đoan gia tăng, các hiện tượng bão mạnh, cháy nổ do quá nhiệt, ô nhiễm không khí và biến động thời tiết ngày càng phức tạp, hiệu suất và độ an toàn của điện mặt trời mái nhà cũng đứng trước nhiều rủi ro mới. Chính vì vậy, những quy định trong Nghị định 58 như yêu cầu kiểm soát kỹ thuật, tiêu chuẩn thiết bị, đấu nối an toàn hay cơ chế quản lý công suất không chỉ mang tính hành chính mà còn phản ánh nhu cầu cấp thiết phải xây dựng một hệ thống năng lượng tái tạo có khả năng chống chịu với biến đổi khí hậu.</p>
+      <p>Đặc biệt, việc Nghị định 58 quy định thu hồi Giấy chứng nhận đăng ký phát triển nếu sau 60 ngày không triển khai lắp đặt cho thấy Nhà nước đang hướng tới tính thực chất và hiệu quả trong phát triển điện mặt trời, tránh tình trạng đầu cơ chính sách hoặc phát triển thiếu kiểm soát như giai đoạn trước.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">Net Zero</div>
+        <div class="stat-lbl">Mục tiêu phát thải ròng 2050</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">40°C+</div>
+        <div class="stat-lbl">Nhiệt độ đỉnh Bắc Bộ & miền Trung</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num o">60 ngày</div>
+        <div class="stat-lbl">Thời hạn triển khai lắp đặt theo NĐ 58</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>Trong bối cảnh nhu cầu điện tiếp tục gia tăng và các hiện tượng thời tiết cực đoan được dự báo sẽ xuất hiện thường xuyên hơn, khả năng thích ứng của hệ thống điện mặt trời sẽ trở thành một trong những yếu tố quan trọng quyết định hiệu quả của quá trình chuyển đổi năng lượng tại Việt Nam. Ba nhóm đối tượng chính được khuyến khích là hộ dân, cơ quan công sở và doanh nghiệp — tạo nền tảng cho một hệ sinh thái điện mặt trời phân tán rộng khắp trên toàn quốc.</p>
+      <p>Đây không chỉ là câu chuyện của ngành điện, mà còn là một phần của bài toán bảo đảm an ninh năng lượng quốc gia trong kỷ nguyên biến đổi khí hậu.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CHƯƠNG 05 ═══════════════════ -->
+<section id="s05" data-ch="Giải pháp">
+  <div class="ch-head dark">
+    <div class="ch-ghost">05</div>
+    <div class="wide ch-inner">
+      <p class="ch-eyebrow" style="color:var(--yellow)">Chương 05 &nbsp;—&nbsp; Giải pháp</p>
+      <h2 class="ch-title">Xây dựng hệ thống điện mặt trời có khả năng chống chịu khí hậu</h2>
+      <p class="ch-sub">Bài toán phát triển điện mặt trời không còn chỉ là mở rộng quy mô lắp đặt, mà phải đặt trong chiến lược thích ứng toàn diện với biến đổi khí hậu.</p>
+    </div>
+  </div>
+
+  <div class="section col">
+    <div class="prose">
+      <p class="drop">Trước xu hướng gia tăng của các đợt nắng nóng cực đoan, bão mạnh, cháy rừng và các hiện tượng thời tiết bất thường, nhiều chuyên gia cho rằng bài toán phát triển điện mặt trời không còn chỉ là mở rộng quy mô lắp đặt mà phải đặt trong chiến lược thích ứng với biến đổi khí hậu.</p>
+      <p>Theo các khuyến nghị của Cơ quan Năng lượng Tái tạo Quốc tế (IRENA), khả năng chống chịu cần được tích hợp ngay từ giai đoạn quy hoạch, thiết kế, xây dựng cho tới vận hành các dự án năng lượng tái tạo. Thay vì dựa trên các điều kiện khí hậu trong quá khứ, các dự án điện mặt trời cần tính đến những kịch bản nhiệt độ cao hơn, bão mạnh hơn hoặc lượng mưa cực đoan hơn trong tương lai.</p>
+    </div>
+
+    <div class="callout">
+      <p class="callout-lbl">IRENA — Dấu mốc chiến lược</p>
+      <p>Việt Nam chính thức trở thành thành viên của Cơ quan Năng lượng Tái tạo Quốc tế (IRENA) từ ngày 07/11/2024 — một bước ngoặt chiến lược, khẳng định cam kết mạnh mẽ của quốc gia đối với mục tiêu phát thải ròng bằng 0 và thúc đẩy chuyển dịch năng lượng công bằng.</p>
+    </div>
+
+    <figure class="fig">
+      <img src="assets/img/irena-meeting.jpg" alt="Việt Nam trở thành thành viên của IRENA">
+      <figcaption>Việc tham gia IRENA mở thêm kênh hợp tác về chính sách, tài chính và tiêu chuẩn kỹ thuật cho quá trình chuyển dịch năng lượng.</figcaption>
+    </figure>
+
+    <div class="prose">
+      <p>Về mặt công nghệ, các nhà sản xuất đang phát triển những thế hệ tấm pin có hệ số nhiệt thấp hơn nhằm hạn chế suy giảm hiệu suất khi nhiệt độ tăng cao. Bên cạnh đó, việc tối ưu hệ thống thông gió, lựa chọn vật liệu chống ăn mòn, chống bụi và nâng cao khả năng chịu gió của kết cấu giá đỡ cũng được xem là những giải pháp quan trọng đối với các khu vực thường xuyên chịu tác động của thời tiết cực đoan.</p>
+      <p>Các chuyên gia cũng nhấn mạnh vai trò của hệ thống lưu trữ năng lượng và lưới điện thông minh trong việc nâng cao độ tin cậy của nguồn điện tái tạo. Khi điện mặt trời ngày càng chiếm tỷ trọng lớn trong cơ cấu năng lượng, pin lưu trữ và các công nghệ điều độ linh hoạt sẽ giúp giảm nguy cơ gián đoạn nguồn cung trong những thời điểm thời tiết bất lợi, đồng thời tăng khả năng phục hồi của hệ thống sau thiên tai.</p>
+    </div>
+
+    <div class="grid-2">
+      <figure>
+        <img src="assets/img/panel-closeup.jpg" alt="Bề mặt tấm pin mặt trời bám bụi">
+        <figcaption>Thiết kế chống bụi, chống ăn mòn và kế hoạch vệ sinh định kỳ trở thành một phần của năng lực chống chịu khí hậu.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/img/hero-panels.jpg" alt="Các hàng tấm pin mặt trời trải dài">
+        <figcaption>Hệ thống điện mặt trời bền vững cần được nhìn như một tổ hợp gồm tấm pin, lưu trữ, truyền tải và điều độ vận hành.</figcaption>
+      </figure>
+    </div>
+
+    <div class="pq">
+      <p>"Vấn đề cốt lõi không còn là phát triển điện mặt trời hay không, mà là phát triển như thế nào để các hệ thống năng lượng sạch có thể vận hành an toàn, hiệu quả và bền vững."</p>
+    </div>
+
+    <div class="prose">
+      <p>Nóng lên toàn cầu đang đặt ra những thách thức mới đối với năng lượng mặt trời, nhưng điều đó không làm thay đổi vai trò của nguồn năng lượng này trong quá trình chuyển đổi xanh. Quá trình chuyển đổi xanh không chỉ đòi hỏi mở rộng quy mô năng lượng tái tạo, mà còn phải bảo đảm các nguồn năng lượng này đủ bền vững trước những rủi ro do chính biến đổi khí hậu gây ra.</p>
+      <p>Điều này đặt ra yêu cầu mới đối với toàn bộ chuỗi giá trị của ngành năng lượng mặt trời: từ nhà sản xuất tấm pin và thiết bị phụ trợ, nhà đầu tư và đơn vị vận hành dự án, các cơ quan quản lý nhà nước, đến từng hộ gia đình lắp đặt điện mái nhà. Tất cả đều cần nâng cao nhận thức và năng lực thích ứng trong bối cảnh khí hậu mới.</p>
+      <p>Bài toán không nằm ở việc lắp thêm bao nhiêu tấm pin, mà ở việc xây dựng hệ thống điện mặt trời đủ bền bỉ trước một khí hậu ngày càng khắc nghiệt — để ánh sáng của ngày mai không bị xóa nhòa bởi chính sức nóng của hôm nay.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ KẾT ═══════════════════ -->
+<div class="closing">
+  <div class="col">
+    <div class="kicker">Kết luận</div>
+    <h2>Bài toán không nằm ở việc <em>lắp thêm bao nhiêu tấm pin</em>, mà ở việc xây dựng hệ thống điện mặt trời đủ bền bỉ trước một khí hậu ngày càng khắc nghiệt.</h2>
+    <p>Quá trình chuyển đổi xanh đòi hỏi không chỉ quy mô lớn hơn, mà còn cần sự bền vững trước chính những rủi ro do biến đổi khí hậu gây ra.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="site-footer">
+  <div class="wide foot-row">
+    <a class="foot-brand" href="#top">
+      <span class="sun" style="width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 50% 50%,#ffe07a 0 26%,var(--yellow) 30%,var(--orange) 100%)"></span>
+      <span><b>NĂNG LƯỢNG</b> <i>MẶT TRỜI</i></span>
+    </a>
+    <p class="foot-sources">Nguồn dữ liệu &amp; hình ảnh: Cơ quan Năng lượng Quốc tế (IEA), Tổ chức Khí tượng Thế giới (WMO), Ember / Visual Capitalist, WeatherBELL Analytics, kWh Analytics Solar Risk Assessment 2026, IRENA, Chính phủ Việt Nam (Nghị định 58/2025/NĐ-CP), innovate.news.</p>
+  </div>
+</footer>
+
+<script>
+  const prog = document.getElementById('progress');
+
+  function onScroll() {
+    const h = document.documentElement;
+    prog.style.width = (window.scrollY / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+</body>
+</html>
