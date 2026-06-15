@@ -402,9 +402,9 @@
 
     /* ── BYLINE CREDIT ── */
     .byline-credit {
-      max-width: var(--col);
-      margin: -36px auto 72px;
-      padding: 0 0 0 28px;
+      max-width: var(--wide);
+      margin: 54px auto 72px;
+      padding: 0 28px;
       display: flex;
       justify-content: flex-end;
     }
@@ -471,6 +471,135 @@
       .hero-side { width: min(74vw, 260px); }
     }
   </style>
+
+  <style>
+  @media print {
+    @page { size: A4; margin: 12mm 12mm 14mm; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    html, body { width:100% !important; max-width:none !important; overflow:visible !important; background:#fff; }
+    #progress, #to-top { display:none !important; }
+
+    /* (1) giu cac khoi nam ngang nhu web */
+    .stats { grid-template-columns: repeat(3,1fr) !important; }
+    .stat { border-right:1px solid var(--line) !important; border-bottom:none !important; }
+    .stat:last-child { border-right:none !important; }
+    .grid-2 { grid-template-columns:1fr 1fr !important; }
+    .visual-note { grid-template-columns:minmax(0,1.1fr) minmax(200px,.9fr) !important; }
+    .toc-band {
+      min-height:271mm !important;
+      box-sizing:border-box !important;
+      break-after:page !important;
+      page-break-after:always !important;
+    }
+
+    /* (3) cover: keep the web hero treatment, but center it on one A4 page */
+    .hero {
+      min-height:0 !important;
+      height:271mm !important;
+      padding:0 !important;
+      display:flex !important;
+      align-items:center !important;
+      page-break-after:always !important;
+      break-after:page !important;
+      background:#0f2934 !important;
+    }
+    .hero-bg {
+      opacity:1 !important;
+      background:url("assets/img/solar-sunset.jpg") center center / cover no-repeat !important;
+    }
+    .hero-bg::after {
+      background:
+        radial-gradient(780px 520px at 72% 36%, rgba(255,255,255,.08), rgba(255,255,255,0) 64%),
+        linear-gradient(90deg, rgba(5,20,27,.92) 0%, rgba(8,27,35,.76) 48%, rgba(8,27,35,.5) 100%),
+        linear-gradient(180deg, rgba(15,46,58,.18) 0%, rgba(3,13,18,.84) 100%) !important;
+    }
+    .hero-inner { grid-template-columns:1fr !important; gap:30px !important; padding:0 7mm !important; }
+    .hero-copy { width:100% !important; }
+    .hero h1 {
+      font-size:42px !important;
+      line-height:1.04 !important;
+      max-width:760px !important;
+      margin-bottom:34px !important;
+    }
+    .hero-deck {
+      max-width:760px !important;
+      font-size:16px !important;
+      line-height:1.65 !important;
+    }
+    .hero-side { width:100% !important; justify-self:stretch !important; }
+    .hero-side img { width:100% !important; aspect-ratio:16/7 !important; }
+
+    /* (2) dau chuong: mau nen dac dung tong (tranh loi blend khi in) */
+    .ch-head {
+      background-image:none !important;
+      margin:10mm 0 9mm !important;
+      padding:42px 0 50px !important;
+      min-height:0 !important;
+      break-before:page !important;
+      page-break-before:always !important;
+    }
+    .ch-head::before { display:none !important; }
+    .ch-head.dark   { background:#15171a !important; }
+    .ch-head.forest { background:linear-gradient(120deg,#1c3408,#2e5012 55%,#3d6318) !important; }
+    .ch-head.ember  { background:linear-gradient(120deg,#6b2708,#b04010 55%,#e06811) !important; }
+    .ch-head.deep   { background:linear-gradient(120deg,#0a1d06,#1a3612 55%,#2a4f1c) !important; }
+    .ch-inner { padding-right:72px !important; }
+    .ch-title {
+      max-width:660px !important;
+      font-size:30px !important;
+      line-height:1.18 !important;
+      text-wrap:balance !important;
+    }
+    .ch-sub {
+      max-width:none !important;
+      margin-top:18px !important;
+      font-size:17px !important;
+      line-height:1.58 !important;
+    }
+    .ch-ghost {
+      right:26px !important;
+      top:18px !important;
+      transform:none !important;
+      font-size:126px !important;
+      line-height:.9 !important;
+      color:rgba(255,255,255,.15) !important;
+    }
+
+    /* page-break */
+    .ch-head, figure, .stats, .callout, .pq, .visual-note, .toc-band { break-inside: avoid; }
+    .ch-head { break-after: avoid; }
+    .ch-head + .section { padding-top:6mm !important; }
+    .prose p { orphans:3; widows:3; }
+    #s01 .section { padding-top:4mm !important; }
+    #s01 .prose p { margin-bottom:1.05em !important; }
+    #s01 .fig {
+      margin:7mm 0 8mm !important;
+      break-inside:avoid !important;
+    }
+    #s01 .fig img {
+      max-height:62mm !important;
+      object-fit:cover !important;
+      object-position:center 54% !important;
+    }
+    #s01 .fig figcaption,
+    #s01 .fig-chart figcaption { margin-top:7px !important; }
+    #s01 .fig-chart {
+      margin:7mm 0 6mm !important;
+      break-inside:avoid !important;
+    }
+    #s01 .fig-chart img { max-height:none !important; object-fit:contain !important; }
+    #s01 .pq { margin:7mm 0 0 !important; }
+    .byline-credit {
+      margin:14mm auto 8mm !important;
+      break-inside:avoid !important;
+      page-break-inside:avoid !important;
+    }
+    .byline-credit p { white-space:nowrap !important; }
+    .fig-chart img { width:100%; }
+    .fig-chart.tall img { width:auto; max-width:100%; max-height:232mm; }
+    a { text-decoration:none; color:inherit; }
+  }
+  </style>
 </head>
 <body>
 
@@ -528,7 +657,7 @@
     </div>
 
     <figure class="fig">
-      <img src="assets/img/night-farm.jpg" loading="lazy" decoding="async" alt="Người dân làm việc ngoài đồng vào ban đêm">
+      <img src="assets/img/night-farm.jpg" decoding="async" alt="Người dân làm việc ngoài đồng vào ban đêm">
       <figcaption>Lao động chuyển sang làm việc ban đêm để tránh nắng nóng ban ngày.</figcaption>
     </figure>
 
@@ -539,7 +668,7 @@
 
     <figure class="fig-chart">
       <div class="chart-frame">
-        <img src="assets/img/temp-map.jpg" loading="lazy" decoding="async" alt="Bản đồ dị thường nhiệt độ bề mặt toàn cầu">
+        <img src="assets/img/temp-map.jpg" decoding="async" alt="Bản đồ dị thường nhiệt độ bề mặt toàn cầu">
       </div>
       <figcaption>Bản đồ dị thường nhiệt độ 2m toàn cầu - Nguồn: WeatherBELL Analytics.</figcaption>
     </figure>
@@ -590,12 +719,12 @@
 
     <div class="visual-note">
       <p>Ở cấp độ hạ tầng, điện mặt trời không còn là các cụm lắp đặt rời rạc. Những trang trại quy mô gigawatt đòi hỏi quy hoạch lưới điện, bảo trì bề mặt pin, quản lý bụi và điều độ công suất ở mức chính xác hơn.</p>
-      <img src="assets/img/desert-solar.jpg" loading="lazy" decoding="async" alt="Trang trại điện mặt trời quy mô lớn giữa sa mạc">
+      <img src="assets/img/desert-solar.jpg" decoding="async" alt="Trang trại điện mặt trời quy mô lớn giữa sa mạc">
     </div>
 
     <figure class="fig-chart tall">
       <div class="chart-frame">
-        <img src="assets/img/iea-infographic.jpg" loading="lazy" decoding="async" alt="Đồ họa 10 quốc gia tiêu thụ điện nhiều nhất thế giới">
+        <img src="assets/img/iea-infographic.jpg" decoding="async" alt="Đồ họa 10 quốc gia tiêu thụ điện nhiều nhất thế giới">
       </div>
       <figcaption>10 quốc gia tiêu thụ điện nhiều nhất thế giới - Nguồn: Ember / Visual Capitalist, cập nhật 4/2026.</figcaption>
     </figure>
@@ -630,7 +759,7 @@
     </div>
 
     <figure class="fig">
-      <img src="assets/img/panel-closeup.jpg" loading="lazy" decoding="async" alt="Cận cảnh bề mặt tấm pin mặt trời bám bụi">
+      <img src="assets/img/panel-closeup.jpg" decoding="async" alt="Cận cảnh bề mặt tấm pin mặt trời bám bụi">
       <figcaption>Bụi bám trên bề mặt làm giảm hiệu suất và tăng chi phí vệ sinh.</figcaption>
     </figure>
 
@@ -669,12 +798,12 @@
     </div>
 
     <figure class="fig">
-      <img src="assets/img/co-hoi-moi.jpg" loading="lazy" decoding="async" alt="Nghị định 58/2025/NĐ-CP về phát triển điện năng lượng tái tạo tại Việt Nam">
+      <img src="assets/img/co-hoi-moi.jpg" decoding="async" alt="Nghị định 58/2025/NĐ-CP về phát triển điện năng lượng tái tạo tại Việt Nam">
       <figcaption>Nghị định 58/2025/NĐ-CP (ban hành 03/3/2025) quy định chi tiết về phát triển điện năng lượng tái tạo - nền tảng pháp lý mới cho điện mặt trời tại Việt Nam.</figcaption>
     </figure>
 
     <figure class="fig">
-      <img src="assets/img/rooftop-solar.jpg" loading="lazy" decoding="async" alt="Tấm pin mặt trời lắp trên mái nhà dân cư">
+      <img src="assets/img/rooftop-solar.jpg" decoding="async" alt="Tấm pin mặt trời lắp trên mái nhà dân cư">
       <figcaption>Điện mặt trời mái nhà là hướng triển khai gần với hộ dân, cơ quan và doanh nghiệp, nhưng cũng chịu tác động trực tiếp từ nhiệt độ mái và tiêu chuẩn an toàn kỹ thuật.</figcaption>
     </figure>
 
@@ -736,7 +865,7 @@
     </div>
 
     <figure class="fig">
-      <img src="assets/img/irena-meeting.jpg" loading="lazy" decoding="async" alt="Việt Nam trở thành thành viên của IRENA">
+      <img src="assets/img/irena-meeting.jpg" decoding="async" alt="Việt Nam trở thành thành viên của IRENA">
       <figcaption>Việc tham gia IRENA mở thêm kênh hợp tác về chính sách, tài chính và tiêu chuẩn kỹ thuật cho quá trình chuyển dịch năng lượng.</figcaption>
     </figure>
 
